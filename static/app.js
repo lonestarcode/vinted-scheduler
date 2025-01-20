@@ -131,11 +131,28 @@ function appendLog(line, isError) {
 // Render stats
 function renderStats(stats) {
   statsDiv.innerHTML = `
-    <p><strong>Total Attempts:</strong> ${stats.total_attempts}</p>
-    <p><strong>Successful:</strong> ${stats.successful_publishes}</p>
-    <p><strong>Failed:</strong> ${stats.failed_publishes}</p>
-    <p><strong>Success Rate:</strong> ${stats.success_rate.toFixed(1)}%</p>
-    <p><strong>Running Time:</strong> ${stats.running_time}</p>
+    <div class="metric">
+      <div class="metric-row">
+        <span class="metric-label">Status:</span>
+        <span class="metric-value ${stats.status.toLowerCase()}">${stats.status}</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-label">Next Publish:</span>
+        <span class="metric-value">${stats.next_publish}</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-label">Last Published:</span>
+        <span class="metric-value">${stats.last_published}</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-label">Published Today:</span>
+        <span class="metric-value">${stats.published_today}</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-label">Time Until Next:</span>
+        <span class="metric-value">${stats.time_until_next}</span>
+      </div>
+    </div>
   `;
 }
 

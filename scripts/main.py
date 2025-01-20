@@ -83,6 +83,9 @@ class VintedBot:
             listing_url = driver.current_url
             log_callback(f"[INFO] Published draft. Listing URL: {listing_url}")
             self.stats.successful_publishes += 1
+            self.stats.last_published_time = datetime.now()
+            self.stats.published_today += 1
+            self.stats.next_publish_time = datetime.now() + timedelta(minutes=interval)
             return (listing_url, True)
         except Exception as e:
             self.stats.failed_publishes += 1
@@ -210,6 +213,9 @@ class VintedBot:
             driver.quit()
             log_callback("[INFO] WebDriver closed.")
             log_callback("[INFO] Bot session ended.")
+            if self.stop_flag.is_set():
+                self.stats.status = "Stopped"
+                self.stats.next_publish_time = None
 
     def _load_config(self):
         """
@@ -251,21 +257,27 @@ class VintedBot:
 
 class BotStats:
     def __init__(self):
-        self.total_attempts = 0
-        self.successful_publishes = 0
-        self.failed_publishes = 0
-        self.start_time = datetime.now()
-        
-    def get_success_rate(self):
-        if self.total_attempts == 0:
-            return 0
-        return (self.successful_publishes / self.total_attempts) * 100
+        self.status = "Stopped"
+        self.next_publish_time = None
+        self.last_published_time = None
+        self.published_today = 0
+        self.start_time = None
 
     def get_summary(self):
+        now = datetime.now()
+        time_until_next = ""
+        if self.next_publish_time:
+            delta = self.next_publish_time - now
+            if delta.total_seconds() > 0:
+                hours = int(delta.total_seconds() // 3600)
+                minutes = int((delta.total_seconds() % 3600) // 60)
+                seconds = int(delta.total_seconds() % 60)
+                time_until_next = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+
         return {
-            "total_attempts": self.total_attempts,
-            "successful_publishes": self.successful_publishes,
-            "failed_publishes": self.failed_publishes,
-            "success_rate": self.get_success_rate(),
-            "running_time": str(datetime.now() - self.start_time)
+            "status": self.status,
+            "next_publish": self.next_publish_time.strftime("%H:%M:%S") if self.next_publish_time else "Not scheduled",
+            "last_published": self.last_published_time.strftime("%H:%M:%S") if self.last_published_time else "Never",
+            "published_today": self.published_today,
+            "time_until_next": time_until_next or "--:--:--"
         }

@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Vinted Bot Control Panel</title>
+  <title>Vinted Scheduler Control Panel</title>
   <link rel="stylesheet" href="/static/styles.css" />
 </head>
 <body>
   <header class="navbar">
-    <h1>Vinted Bot</h1>
+    <h1>Vinted Scheduler</h1>
     <nav class="nav-links">
       <a href="#" class="active">Home</a>
       <!-- Add more links if needed -->
@@ -31,10 +31,29 @@
 
     <!-- Stats Panel -->
     <section class="panel stats-panel">
-      <h2>Statistics</h2>
       <div id="stats">
-        <!-- Updated by app.js -->
-        <p>No data yet.</p>
+        <div class="metric">
+          <div class="metric-row">
+            <span class="metric-label">Status:</span>
+            <span class="metric-value">Stopped</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Next Publish:</span>
+            <span class="metric-value">Not scheduled</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Last Published:</span>
+            <span class="metric-value">Never</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Published Today:</span>
+            <span class="metric-value">0</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Time Until Next:</span>
+            <span class="metric-value">--:--:--</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -51,7 +70,7 @@
   </main>
   
   <footer>
-    <p>&copy; 2025 Vinted Bot. All Rights Reserved.</p>
+    <p>&copy; 2025 Vinted Scheduler. All Rights Reserved.</p>
   </footer>
 
   <script src="/static/app.js"></script>

@@ -129,8 +129,48 @@
   }
   
   /* Stats Panel */
-  .stats-panel p {
-    margin-bottom: 0.5rem;
+  .stats-panel {
+    display: flex;
+    justify-content: center;
+  }
+  
+  #stats {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .metric-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0;
+  }
+  
+  .metric-label {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .metric-value {
+    color: #4CAF50;
+  }
+  
+  .metric-value.running {
+    color: #4CAF50;  /* green */
+  }
+  
+  .metric-value.stopped {
+    color: #f44336;  /* red */
+  }
+  
+  .metric-value.scheduled {
+    color: #2196F3;  /* blue */
   }
   
   /* Logs Panel */
