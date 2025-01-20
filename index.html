@@ -127,14 +127,17 @@
       background-color: #A0A0A0;
     }
 
+    /* Update control group styles */
     .control-group {
       margin-bottom: 0.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
     }
 
     .control-group label {
-      display: block;
       font-size: 0.85rem;
-      margin-bottom: 0.2rem;
+      white-space: nowrap;
     }
 
     .control-group input {
@@ -143,6 +146,38 @@
       border: 2px solid #BFBFBF;
       padding: 2px;
       font-size: 0.85rem;
+    }
+
+    /* Update scheduler controls styles */
+    .scheduler-controls {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .controls-wrapper {
+      display: flex;
+      gap: 1rem;
+      flex: 1;
+    }
+
+    /* Media query for mobile screens */
+    @media (max-width: 768px) {
+      .controls-wrapper {
+        flex-direction: column;
+      }
+
+      .button-group {
+        margin-left: 0;
+        margin-top: 0.5rem;
+      }
+    }
+
+    .button-group {
+      display: flex;
+      gap: 0.5rem;
+      margin-left: auto;
     }
 
     /* Stats display */
@@ -186,6 +221,55 @@
       font-weight: bold;
     }
 
+    /* Add these new styles */
+    .windows-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .side-by-side {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* Media query for mobile screens */
+    @media (max-width: 768px) {
+      .side-by-side {
+        grid-template-columns: 1fr;
+      }
+
+      /* Reduce heights for mobile */
+      .logs-area {
+        height: 200px;
+      }
+
+      main {
+        width: 95%;
+        padding: 0.25rem;
+      }
+    }
+
+    /* Adjust the logs window height */
+    .logs-area {
+      height: 300px;  /* Make logs taller to match statistics height */
+    }
+
+    /* Make statistics window fill height */
+    .stats-window {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stats {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+
   </style>
 </head>
 <body>
@@ -198,64 +282,72 @@
   </header>
 
   <main>
+    <div class="windows-layout">
+      <!-- Scheduler Settings Window -->
+      <section class="win95-window">
+        <div class="scheduler-controls">
+          <div class="controls-wrapper">
+            <div class="control-group">
+              <label for="start-time">Start Time:</label>
+              <input type="time" id="start-time" value="06:00" />
+            </div>
+            <div class="control-group">
+              <label for="interval">Interval (minutes):</label>
+              <input type="number" id="interval" value="60" />
+            </div>
+          </div>
+          <div class="button-group">
+            <button id="start-bot" class="win95-btn">Start</button>
+            <button id="stop-bot" class="win95-btn" disabled>Stop</button>
+          </div>
+        </div>
+      </section>
 
-    <!-- Scheduler Settings Window -->
-    <section class="win95-window">
-      <div>
-        <div class="control-group">
-          <label for="start-time">Start Time:</label>
-          <input type="time" id="start-time" value="06:00" />
-        </div>
-        <div class="control-group">
-          <label for="interval">Interval (minutes):</label>
-          <input type="number" id="interval" value="60" />
-        </div>
-        <button id="start-bot" class="win95-btn">Start</button>
-        <button id="stop-bot" class="win95-btn" disabled>Stop</button>
-      </div>
-    </section>
+      <!-- Side by side container -->
+      <div class="side-by-side">
+        <!-- Stats Window -->
+        <section class="win95-window stats-window">
+          <div class="title-bar">
+            <span class="title">Statistics</span>
+          </div>
+          <div id="stats" class="stats">
+            <div class="metric-row">
+              <span class="metric-label">Status:</span>
+              <span class="metric-value">Stopped</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Next Publish:</span>
+              <span class="metric-value">Not scheduled</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Last Published:</span>
+              <span class="metric-value">Never</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Published Today:</span>
+              <span class="metric-value">0</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Time Until Next:</span>
+              <span class="metric-value">--:--:--</span>
+            </div>
+          </div>
+        </section>
 
-    <!-- Stats Window -->
-    <section class="win95-window">
-      <div class="title-bar">
-        <span class="title">Statistics</span>
+        <!-- Logs Window -->
+        <section class="win95-window">
+          <div class="title-bar">
+            <span class="title">Logs</span>
+          </div>
+          <div class="logs-header">
+            <button id="clear-logs" class="win95-btn">Clear Logs</button>
+          </div>
+          <div id="logs" class="logs-area">
+            <!-- Updated by JavaScript -->
+          </div>
+        </section>
       </div>
-      <div id="stats" class="stats">
-        <div class="metric-row">
-          <span class="metric-label">Status:</span>
-          <span class="metric-value">Stopped</span>
-        </div>
-        <div class="metric-row">
-          <span class="metric-label">Next Publish:</span>
-          <span class="metric-value">Not scheduled</span>
-        </div>
-        <div class="metric-row">
-          <span class="metric-label">Last Published:</span>
-          <span class="metric-value">Never</span>
-        </div>
-        <div class="metric-row">
-          <span class="metric-label">Published Today:</span>
-          <span class="metric-value">0</span>
-        </div>
-        <div class="metric-row">
-          <span class="metric-label">Time Until Next:</span>
-          <span class="metric-value">--:--:--</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Logs Window -->
-    <section class="win95-window">
-      <div class="title-bar">
-        <span class="title">Logs</span>
-      </div>
-      <div class="logs-header">
-        <button id="clear-logs" class="win95-btn">Clear Logs</button>
-      </div>
-      <div id="logs" class="logs-area">
-        <!-- Updated by JavaScript -->
-      </div>
-    </section>
+    </div>
   </main>
 
   <footer>
