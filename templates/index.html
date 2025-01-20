@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vinted Bot Control Panel</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <h1>Vinted Bot</h1>
+    <nav class="nav-links">
+      <a href="#" class="active">Home</a>
+      <!-- Add more links if needed -->
+    </nav>
+  </header>
+
+  <main>
+    <!-- Settings Panel -->
+    <section class="panel settings-panel">
+      <div class="controls">
+        <label for="start-time">Start Time:</label>
+        <input type="time" id="start-time" value="06:00" />
+        
+        <label for="interval">Interval (minutes):</label>
+        <input type="number" id="interval" value="60" />
+        
+        <button id="start-bot">Start Bot</button>
+        <button id="stop-bot" disabled>Stop Bot</button>
+      </div>
+    </section>
+
+    <!-- Stats Panel -->
+    <section class="panel stats-panel">
+      <h2>Statistics</h2>
+      <div id="stats">
+        <!-- Updated by app.js -->
+        <p>No data yet.</p>
+      </div>
+    </section>
+
+    <!-- Logs Panel -->
+    <section class="panel logs-panel">
+      <h2>Logs</h2>
+      <div class="logs-header">
+        <button id="clear-logs">Clear Logs</button>
+      </div>
+      <div id="logs" class="logs-content">
+        <!-- Updated by app.js -->
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <p>&copy; 2025 Vinted Bot. All Rights Reserved.</p>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

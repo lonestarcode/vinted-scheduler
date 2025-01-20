@@ -1,0 +1,174 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Navigation Bar */
+  .navbar {
+    background-color: #4CAF50; /* a green tone */
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+  }
+  
+  .navbar h1 {
+    font-size: 1.5rem;
+    margin-right: 2rem;
+  }
+  
+  .nav-links a {
+    color: #fff;
+    margin-right: 1rem;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .nav-links a.active,
+  .nav-links a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Main Layout */
+  main {
+    flex: 1;
+    padding: 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #eee;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  
+  /* Panels */
+  .panel {
+    background: #fff;
+    margin-bottom: 1.5rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 1rem;
+  }
+  
+  /* Collapsible Settings Panel */
+  .panel-toggle {
+    display: none;
+  }
+  .panel-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  .panel-label .chevron {
+    font-size: 1.2rem;
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+  }
+  .panel-content {
+    margin-top: 1rem;
+    display: none;
+  }
+  .panel-toggle:checked + .panel-label .chevron {
+    transform: rotate(180deg);
+  }
+  .panel-toggle:checked ~ .panel-content {
+    display: block;
+  }
+  
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .controls label {
+    font-weight: bold;
+  }
+  
+  .controls input {
+    padding: 5px;
+  }
+  
+  button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  #start-bot {
+    background-color: #4CAF50;
+    color: #fff;
+  }
+  
+  #stop-bot {
+    background-color: #f44336;
+    color: #fff;
+  }
+  
+  #stop-bot:disabled {
+    opacity: 0.6;
+  }
+  
+  /* Stats Panel */
+  .stats-panel p {
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Logs Panel */
+  .logs-panel {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .logs-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.5rem;
+  }
+  
+  #clear-logs {
+    background-color: #777;
+    color: #fff;
+  }
+  
+  .logs-content {
+    background: #fafafa;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    height: 250px;
+    overflow-y: auto;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  /* Log line styles */
+  .log-info {
+    color: #333;
+  }
+  .log-error {
+    color: #c0392b; /* red */
+    font-weight: bold;
+  }
+  .log-warn {
+    color: #e67e22; /* orange */
+  }

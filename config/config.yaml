@@ -1,0 +1,19 @@
+# config.yaml
+# Store credentials, schedule, and other settings here.
+
+login:
+  username: "YOUR_VINTED_USERNAME"
+  password: "YOUR_VINTED_PASSWORD"
+
+schedule:
+  # Default start time for the first listing
+  # (In HH:MM format, 24-hour clock)
+  start_time: "06:00"
+
+  # The default interval in minutes between listings
+  # once each listing has gone live
+  interval_minutes: 60
+
+intervals:
+  # How often (in seconds) to check if a published listing is live
+  check_live_interval_seconds: 30
