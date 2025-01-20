@@ -3,76 +3,426 @@
 <head>
   <meta charset="UTF-8" />
   <title>Vinted Scheduler Control Panel</title>
-  <link rel="stylesheet" href="/static/styles.css" />
+  <style>
+    /* Windows 95-inspired palette and UI */
+
+    /* Basic reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Tahoma", sans-serif; /* Tahoma was a common Win95 font */
+    }
+
+    body {
+      background-color: #C0C0C0; /* Classic Win95 gray */
+      color: #000;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Container for the main content */
+    main {
+      flex: 1;
+      width: 90%;
+      max-width: 800px;
+      margin: 1rem auto;
+      padding: 0.5rem;
+    }
+
+    /* A simple "3D" effect class for panels/windows */
+    .win95-window {
+      border: 2px solid #fff; /* highlight */
+      border-bottom-color: #7B7B7B;
+      border-right-color: #7B7B7B;
+      background-color: #C0C0C0;
+      box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #7B7B7B;
+      margin-bottom: 1rem;
+      padding: 1rem;
+    }
+
+    /* Title bar for a Win95 look */
+    .title-bar {
+      display: flex;
+      align-items: center;
+      background: #000080; /* navy color */
+      color: #fff;
+      padding: 0.25rem 0.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      height: 1.5rem;
+    }
+
+    .title-bar .title {
+      font-size: 0.9rem;
+    }
+
+    /* Navigation Bar styled as a simple gray strip */
+    .navbar {
+      background: #C0C0C0;
+      border: 2px solid #fff; /* highlight edges */
+      border-bottom-color: #7B7B7B;
+      border-right-color: #7B7B7B;
+      box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #7B7B7B;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .navbar h1 {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #000;
+      background-color: #C0C0C0;
+      padding: 3px 6px;
+      border: 1px solid #fff;
+      border-bottom-color: #7B7B7B;
+      border-right-color: #7B7B7B;
+    }
+
+    .nav-links a:hover {
+      background-color: #A0A0A0;
+    }
+
+    footer {
+      background: #C0C0C0;
+      border: 2px solid #fff; /* highlight edges */
+      border-top-color: #7B7B7B;
+      border-right-color: #7B7B7B;
+      box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #7B7B7B;
+      text-align: center;
+      font-size: 0.8rem;
+      padding: 0.25rem;
+    }
+
+    /* Controls and Buttons in Win95 style */
+    button.win95-btn {
+      background-color: #C0C0C0;
+      border: 1px solid #fff;
+      border-bottom-color: #7B7B7B;
+      border-right-color: #7B7B7B;
+      cursor: pointer;
+      padding: 4px 8px;
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+    }
+
+    button.win95-btn:disabled {
+      color: #7B7B7B;
+    }
+
+    button.win95-btn:hover:not(:disabled) {
+      background-color: #A0A0A0;
+    }
+
+    .control-group {
+      margin-bottom: 0.5rem;
+    }
+
+    .control-group label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .control-group input {
+      width: 120px;
+      background: #fff;
+      border: 2px solid #BFBFBF;
+      padding: 2px;
+      font-size: 0.85rem;
+    }
+
+    /* Stats display */
+    .stats {
+      font-size: 0.85rem;
+    }
+    .stats .metric-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.3rem;
+    }
+    .stats .metric-label {
+      font-weight: bold;
+    }
+
+    /* Logs area in Win95 style */
+    .logs-header {
+      margin-bottom: 0.5rem;
+    }
+
+    .logs-area {
+      border: 2px solid #fff;
+      border-bottom-color: #7B7B7B;
+      border-right-color: #7B7B7B;
+      box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #7B7B7B;
+      background-color: #FFF;
+      height: 150px;
+      overflow-y: auto;
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .log-info {
+      color: #000;
+    }
+    .log-warn {
+      color: #C78A00;
+    }
+    .log-error {
+      color: #FF0000;
+      font-weight: bold;
+    }
+
+  </style>
 </head>
 <body>
+  <!-- NavBar (Windows 95 style) -->
   <header class="navbar">
-    <h1>Vinted Scheduler</h1>
+    <h1>Listing Scheduler</h1>
     <nav class="nav-links">
-      <a href="#" class="active">Home</a>
-      <!-- Add more links if needed -->
+      <a href="#" id="connect-vinted">Connect</a>
     </nav>
   </header>
 
   <main>
-    <!-- Settings Panel -->
-    <section class="panel settings-panel">
-      <div class="controls">
-        <label for="start-time">Start Time:</label>
-        <input type="time" id="start-time" value="06:00" />
-        
-        <label for="interval">Interval (minutes):</label>
-        <input type="number" id="interval" value="60" />
-        
-        <button id="start-bot">Start Bot</button>
-        <button id="stop-bot" disabled>Stop Bot</button>
+
+    <!-- Scheduler Settings Window -->
+    <section class="win95-window">
+      <div class="title-bar">
+        <span class="title">Scheduler Settings</span>
+      </div>
+      <div>
+        <div class="control-group">
+          <label for="start-time">Start Time:</label>
+          <input type="time" id="start-time" value="06:00" />
+        </div>
+        <div class="control-group">
+          <label for="interval">Interval (minutes):</label>
+          <input type="number" id="interval" value="60" />
+        </div>
+        <button id="start-bot" class="win95-btn">Start Bot</button>
+        <button id="stop-bot" class="win95-btn" disabled>Stop Bot</button>
       </div>
     </section>
 
-    <!-- Stats Panel -->
-    <section class="panel stats-panel">
-      <div id="stats">
-        <div class="metric">
-          <div class="metric-row">
-            <span class="metric-label">Status:</span>
-            <span class="metric-value">Stopped</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Next Publish:</span>
-            <span class="metric-value">Not scheduled</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Last Published:</span>
-            <span class="metric-value">Never</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Published Today:</span>
-            <span class="metric-value">0</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Time Until Next:</span>
-            <span class="metric-value">--:--:--</span>
-          </div>
+    <!-- Stats Window -->
+    <section class="win95-window">
+      <div class="title-bar">
+        <span class="title">Bot Statistics</span>
+      </div>
+      <div id="stats" class="stats">
+        <div class="metric-row">
+          <span class="metric-label">Status:</span>
+          <span class="metric-value">Stopped</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Next Publish:</span>
+          <span class="metric-value">Not scheduled</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Last Published:</span>
+          <span class="metric-value">Never</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Published Today:</span>
+          <span class="metric-value">0</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Time Until Next:</span>
+          <span class="metric-value">--:--:--</span>
         </div>
       </div>
     </section>
 
-    <!-- Logs Panel -->
-    <section class="panel logs-panel">
-      <h2>Logs</h2>
-      <div class="logs-header">
-        <button id="clear-logs">Clear Logs</button>
+    <!-- Logs Window -->
+    <section class="win95-window">
+      <div class="title-bar">
+        <span class="title">Logs</span>
       </div>
-      <div id="logs" class="logs-content">
-        <!-- Updated by app.js -->
+      <div class="logs-header">
+        <button id="clear-logs" class="win95-btn">Clear Logs</button>
+      </div>
+      <div id="logs" class="logs-area">
+        <!-- Updated by JavaScript -->
       </div>
     </section>
   </main>
-  
+
   <footer>
-    <p>&copy; 2025 Vinted Scheduler. All Rights Reserved.</p>
+    <p>&copy; 2025 Vinted Scheduler. Windows 95 Look. All Rights Reserved.</p>
   </footer>
 
-  <script src="/static/app.js"></script>
+  <script>
+    const startBotButton = document.getElementById("start-bot");
+    const stopBotButton = document.getElementById("stop-bot");
+    const clearLogsButton = document.getElementById("clear-logs");
+    const logsDiv = document.getElementById("logs");
+    const statsDiv = document.getElementById("stats");
+
+    let autoRefreshInterval = null;
+
+    // Start the bot
+    startBotButton.addEventListener("click", async () => {
+      const startTime = document.getElementById("start-time").value;
+      const interval = document.getElementById("interval").value;
+
+      try {
+        startBotButton.disabled = true;
+        const response = await fetch("/start-bot", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            start_time: startTime, 
+            interval: parseInt(interval) 
+          }),
+        });
+        const data = await response.json();
+        
+        if (data.status === "success") {
+          stopBotButton.disabled = false;
+          appendLog(`[INFO] ${data.message}`, false);
+          // Initiate auto-refresh if not already started
+          if (!autoRefreshInterval) {
+            autoRefreshInterval = setInterval(updateDashboard, 4000);
+          }
+        } else {
+          appendLog(`[ERROR] ${data.message}`, true);
+        }
+      } catch (error) {
+        appendLog("[ERROR] Could not start the bot: " + error.message, true);
+      } finally {
+        startBotButton.disabled = false;
+      }
+    });
+
+    // Stop the bot
+    stopBotButton.addEventListener("click", async () => {
+      try {
+        stopBotButton.disabled = true;
+        const response = await fetch("/stop-bot", { method: "POST" });
+        const data = await response.json();
+        
+        if (data.status === "success") {
+          startBotButton.disabled = false;
+          appendLog(`[INFO] ${data.message}`, false);
+        } else {
+          appendLog(`[ERROR] ${data.message}`, true);
+        }
+      } catch (error) {
+        appendLog("[ERROR] Could not stop the bot: " + error.message, true);
+      } finally {
+        stopBotButton.disabled = false;
+      }
+    });
+
+    // Clear logs
+    clearLogsButton.addEventListener("click", () => {
+      logsDiv.innerHTML = "";
+    });
+
+    // Fetch logs and stats periodically
+    async function updateDashboard() {
+      await updateLogs();
+      await updateStats();
+    }
+
+    // Update logs from server
+    async function updateLogs() {
+      try {
+        const logsResponse = await fetch("/logs");
+        const logsData = await logsResponse.json();
+        if (logsData.status === "success") {
+          renderLogs(logsData.logs);
+        }
+      } catch (error) {
+        console.error("Error fetching logs:", error);
+      }
+    }
+
+    // Update stats from server
+    async function updateStats() {
+      try {
+        const statsResponse = await fetch("/stats");
+        const statsData = await statsResponse.json();
+        if (statsData.status === "success") {
+          renderStats(statsData.stats);
+        } else {
+          statsDiv.innerHTML = `<p>${statsData.message}</p>`;
+        }
+      } catch (error) {
+        console.error("Error fetching stats:", error);
+      }
+    }
+
+    // Render logs with color coding
+    function renderLogs(logLines) {
+      logsDiv.innerHTML = logLines
+        .map(line => parseLogLine(line))
+        .join("");
+      logsDiv.scrollTop = logsDiv.scrollHeight; // Auto-scroll to bottom
+    }
+
+    // Color-code a single log line
+    function parseLogLine(line) {
+      let cssClass = "log-info";
+      if (line.includes("[ERROR]")) cssClass = "log-error";
+      else if (line.includes("[WARN]")) cssClass = "log-warn";
+      return `<div class="${cssClass}">${line}</div>`;
+    }
+
+    // Append a single log line
+    function appendLog(line, isError) {
+      const cssClass = isError ? "log-error" : "log-info";
+      const div = document.createElement("div");
+      div.className = cssClass;
+      div.textContent = line;
+      logsDiv.appendChild(div);
+      logsDiv.scrollTop = logsDiv.scrollHeight;
+    }
+
+    // Render stats
+    function renderStats(stats) {
+      statsDiv.innerHTML = `
+        <div class="metric-row">
+          <span class="metric-label">Status:</span>
+          <span class="metric-value">${stats.status}</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Next Publish:</span>
+          <span class="metric-value">${stats.next_publish}</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Last Published:</span>
+          <span class="metric-value">${stats.last_published}</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Published Today:</span>
+          <span class="metric-value">${stats.published_today}</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Time Until Next:</span>
+          <span class="metric-value">${stats.time_until_next}</span>
+        </div>
+      `;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Start periodic refresh on load
+      autoRefreshInterval = setInterval(updateDashboard, 4000);
+    });
+  </script>
 </body>
 </html>
